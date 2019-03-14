@@ -1,0 +1,29 @@
+version: '3.4'
+services:
+  foreman:
+    image: theforeman:1.12
+    ports:
+      - 8080:3000
+    build:
+      context: .
+    volumes:
+      - ./config/database.yml:/etc/foreman/database.yml:ro
+      - ./config/settings.yml:/etc/foreman/settings.yml:ro
+    links:
+      - db
+    user: foreman
+    #command: sleep infinity
+  db:
+    image: postgres:9.6
+    environment:
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data/pgdata:z
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
