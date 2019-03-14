@@ -12,6 +12,8 @@ services:
     links:
       - db
     user: foreman
+    environment:
+      DB_HOSTNAME: "db"
   db:
     image: postgres:9.6
     environment:
