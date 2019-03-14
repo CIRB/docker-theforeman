@@ -1,7 +1,7 @@
 version: '3.4'
 services:
   foreman:
-    image: theforeman:1.12
+    image: theforeman:1.21
     ports:
       - 8080:3000
     build:
@@ -12,7 +12,6 @@ services:
     links:
       - db
     user: foreman
-    #command: sleep infinity
   db:
     image: postgres:9.6
     environment:
